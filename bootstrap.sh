@@ -1,10 +1,10 @@
 #!/bin/bash
 name=$1
 port=$2
-if [ -z $name ];then
+if [ "$name" = "" ];then
 	name="test-vpn"
 fi
-if [ -z $port ];then
+if [ "$port" = "" ];then
 	port=1194
 fi
 docker build -t $name .
