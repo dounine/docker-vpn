@@ -1,5 +1,5 @@
 FROM daocloud.io/library/centos
-RUN yum install wget expect vim gcc openssl openssl-devel pam-devel net-tools wget -y
+RUN yum install iptables-services wget expect vim gcc openssl openssl-devel pam-devel net-tools wget -y
 RUN echo root:root | chpasswd
 RUN mkdir /soft
 WORKDIR /soft
@@ -27,6 +27,12 @@ RUN echo "#set vpn path" >> /root/.bash_profile
 RUN echo "OVPN_HOME=/etc/ovpn" >> /root/.bash_profile
 RUN echo "export PATH="'$'"OVPN_HOME/sbin:"'$'"PATH" >> /root/.bash_profile
 RUN echo "alias vpnstart='/bin/bash /etc/ovpn/vpnstart.sh'" >> /root/.bash_profile
+#set disabled firewalld
+RUN systemctl disable firewalld.service
+RUN sed -i '11a\-A INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT' /etc/sysconfig/iptables
+RUN systemctl enable iptables.service
+RUN echo "iptables -F" >> /etc/rc.local
+RUN echo "iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE" >> /etc/rc.local
 RUN source /root/.bash_profile
 #add openvpn service
 #COPY conf/init.d/openvpn /etc/init.d/openvpn
