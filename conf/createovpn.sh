@@ -33,6 +33,9 @@ persist-tun
 <ca>
 $(cat easy-rsa/keys/ca.crt)
 </ca>
+<tls-auth>
+$(cat easy-rsa/keys/ta.key)
+</tls-auth>
 ns-cert-type server
 comp-lzo
 verb 3"

@@ -17,8 +17,10 @@ COPY conf/*.sh /etc/ovpn/
 COPY conf/easy-rsa/*.sh /etc/ovpn/easy-rsa/
 COPY conf/psw-file /etc/ovpn/
 RUN cd /etc/ovpn/easy-rsa && bash auto-init.sh
-#create client ovpn
 WORKDIR /etc/ovpn/
+#set create ta.key
+RUN /etc/ovpn/sbin/openvpn --genkey --secret /etc/ovpn/easy-rsa/keys/ta.key
+#create client ovpn
 RUN bash createovpn.sh
 #set openvpn path
 RUN echo "#set vpn path" >> /root/.bash_profile
