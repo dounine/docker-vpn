@@ -16,12 +16,18 @@ COPY conf/server.conf /etc/ovpn/
 COPY conf/*.sh /etc/ovpn/
 COPY conf/easy-rsa/*.sh /etc/ovpn/easy-rsa/
 RUN cd /etc/ovpn/easy-rsa && bash auto-init.sh
-#RUN chmod +x /etc/ovpn/*.sh
-#RUN chmod +x /etc/ovpn/easy-rsa/*.sh 
+#create client ovpn
+WORKDIR /etc/ovpn/
+RUN bash createovpn.sh
 #set openvpn path
 RUN echo "#set vpn path" >> /root/.bash_profile
 RUN echo "OVPN_HOME=/etc/ovpn" >> /root/.bash_profile
 RUN echo "export PATH="'$'"OVPN_HOME/sbin:"'$'"PATH" >> /root/.bash_profile
 RUN echo "alias vpnstart='/bin/bash /etc/ovpn/vpnstart.sh'" >> /root/.bash_profile
 RUN source /root/.bash_profile
+#add openvpn service
+#COPY conf/init.d/openvpn /etc/init.d/openvpn
+#RUN chkconfig --add openvpn
+#RUN chkconfig openvpn on
+#set startup
 RUN rm -rf /soft
