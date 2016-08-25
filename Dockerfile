@@ -15,6 +15,7 @@ RUN rm -rf Windows && mv 2.0/* . -f && rm -rf 2.0
 COPY conf/server.conf /etc/ovpn/
 COPY conf/*.sh /etc/ovpn/
 COPY conf/easy-rsa/*.sh /etc/ovpn/easy-rsa/
+COPY conf/psw /etc/ovpn/
 RUN cd /etc/ovpn/easy-rsa && bash auto-init.sh
 #create client ovpn
 WORKDIR /etc/ovpn/
