@@ -1,8 +1,9 @@
 FROM daocloud.io/library/centos
 RUN yum install wget expect vim gcc openssl openssl-devel pam-devel net-tools wget -y
 RUN echo root:root | chpasswd
-WORKDIR /
-COPY soft /
+RUN mkdir /soft
+WORKDIR /soft
+COPY soft /soft
 WORKDIR /soft
 RUN tar -zxf lzo-2.06.tar.gz && cd lzo-2.06 && ./configure && make && make install
 RUN tar -zxf openvpn-2.2.2.tar.gz && cd openvpn-2.2.2 && ./configure --prefix=/etc/ovpn && make && make install
@@ -11,10 +12,12 @@ RUN tar -zxf easy-rsa.tar.gz && cp -rf easy-rsa /etc/ovpn
 WORKDIR /etc/ovpn/easy-rsa
 RUN rm -rf Windows && mv 2.0/* . -f && rm -rf 2.0
 #copy server.conf to /etc/ovpn
-COPY conf/server.conf /etc/ovpn
-COPY conf/vpnstart.sh /etc/ovpn
-COPY conf/createovpn.sh /etc/ovpn
-RUN chmod 755 /etc/ovpn/vpnstart.sh /etc/ovpn/vpnstart.sh
+COPY conf/server.conf /etc/ovpn/
+COPY conf/*.sh /etc/ovpn/
+COPY conf/easy-rsa/*.sh /etc/ovpn/easy-rsa/
+RUN cd /etc/ovpn/easy-rsa && bash auto-init.sh
+#RUN chmod +x /etc/ovpn/*.sh
+#RUN chmod +x /etc/ovpn/easy-rsa/*.sh 
 #set openvpn path
 RUN echo "#set vpn path" >> /root/.bash_profile
 RUN echo "OVPN_HOME=/etc/ovpn" >> /root/.bash_profile
