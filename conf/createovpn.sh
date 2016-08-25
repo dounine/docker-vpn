@@ -27,17 +27,12 @@ proto tcp
 remote $ip $port
 resolv-retry infinite
 nobind
+auth-user-pass
 persist-key
 persist-tun
 <ca>
 $(cat easy-rsa/keys/ca.crt)
 </ca>
-<cert>
-$(cat easy-rsa/keys/$client.crt)
-</cert>
-<key>
-$(cat easy-rsa/keys/$client.key)
-</key>
 ns-cert-type server
 comp-lzo
 verb 3"
