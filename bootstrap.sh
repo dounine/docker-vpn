@@ -2,7 +2,7 @@
 name=$1
 port=$2
 if [ "$name" = "" ];then
-	name="test-vpn"
+	name="docker-vpn"
 fi
 if [ "$port" = "" ];then
 	port=1194
