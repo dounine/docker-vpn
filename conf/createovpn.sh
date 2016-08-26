@@ -2,7 +2,7 @@
 echo -n "please input you vpnserver ip address[localhost]:"
 read ip
 if [ -z "$ip" ];then
-	ip=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk 'NR==1{print $2}'|tr -d "addr:")
+	ip=`bash getip.sh`
 fi
 echo -n "please input you vpnserver port [1194]:"
 read port
