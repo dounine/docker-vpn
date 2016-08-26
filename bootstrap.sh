@@ -8,4 +8,4 @@ if [ "$port" = "" ];then
 	port=1194
 fi
 docker build -t $name .
-expect start-login.sh $name $port
+expect slogin.sh $name $port
