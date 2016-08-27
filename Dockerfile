@@ -30,7 +30,7 @@ RUN echo "export PATH="'$'"OVPN_HOME/sbin:"'$'"PATH" >> /root/.bash_profile
 RUN chmod +x /etc/rc.d/rc.local
 RUN systemctl disable firewalld.service
 RUN systemctl enable iptables.service
-RUN sed -i '11a\-A INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT' /etc/sysconfig/iptables
+RUN sed -i '11a\-A INPUT -p tcp -m state --state NEW -m tcp --dport replace_port -j ACCEPT' /etc/sysconfig/iptables
 RUN source /root/.bash_profile
 COPY run.sh /
 RUN chmod +x /run.sh

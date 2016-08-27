@@ -4,10 +4,10 @@ read ip
 if [ -z "$ip" ];then
 	ip=`bash getip.sh`
 fi
-echo -n "please input you vpnserver port [1194]:"
+echo -n "please input you vpnserver port [replace_port]:"
 read port
 if [ -z "$port" ];then
-	port=1194
+	port=replace_port
 fi
 echo -n "please input client name [client]:"
 read client
