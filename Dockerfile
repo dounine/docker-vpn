@@ -26,12 +26,12 @@ RUN bash createovpn.sh
 RUN echo "#set vpn path" >> /root/.bash_profile
 RUN echo "OVPN_HOME=/etc/ovpn" >> /root/.bash_profile
 RUN echo "export PATH="'$'"OVPN_HOME/sbin:"'$'"PATH" >> /root/.bash_profile
+RUN source /root/.bash_profile
 #set disabled firewalld
 RUN chmod +x /etc/rc.d/rc.local
 RUN systemctl disable firewalld.service
 RUN systemctl enable iptables.service
-RUN sed -i '11a\-A INPUT -p tcp -m state --state NEW -m tcp --dport replace_port -j ACCEPT' /etc/sysconfig/iptables
-RUN source /root/.bash_profile
+RUN sed -i '11a\-A INPUT -p tcp --dport replace_port -j ACCEPT' /etc/sysconfig/iptables
 COPY run.sh /
 RUN chmod +x /run.sh
 RUN echo "bash /run.sh" >> /etc/rc.local
