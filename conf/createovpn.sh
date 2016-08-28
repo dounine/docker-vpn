@@ -30,14 +30,14 @@ nobind
 auth-user-pass
 persist-key
 persist-tun
+ns-cert-type server
+comp-lzo
+verb 3
 <ca>
 $(cat easy-rsa/keys/ca.crt)
 </ca>
 <tls-auth>
 $(cat easy-rsa/keys/ta.key)
-</tls-auth>
-ns-cert-type server
-comp-lzo
-verb 3"
+</tls-auth>"
 echo -e "$str" >> $filename
 echo "build Successfuled."
