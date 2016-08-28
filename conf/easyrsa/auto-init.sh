@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "=======>>source to vars<<======"
-source ./vars
+source ./vars.example
 echo "==========>>init-pki<<=========="
 /etc/ovpn/easyrsa/easyrsa init-pki
 echo "==========>>build ca.crt,ca.key<<=========="

@@ -34,5 +34,5 @@ RUN sed -i '11a\-A INPUT -p tcp --dport replace_port -j ACCEPT' /etc/sysconfig/i
 COPY run.sh /
 RUN chmod +x /run.sh
 RUN echo "bash /run.sh" >> /etc/rc.local
-#RUN rm -rf /soft
+RUN rm -rf /soft
 CMD ["/sbin/init"]
