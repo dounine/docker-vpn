@@ -6,20 +6,19 @@ WORKDIR /soft
 COPY soft /soft
 WORKDIR /soft
 RUN tar -zxf lzo-2.06.tar.gz && cd lzo-2.06 && ./configure && make && make install
-RUN tar -zxf openvpn-2.2.2.tar.gz && cd openvpn-2.2.2 && ./configure --prefix=/etc/ovpn && make && make install
-RUN tar -zxf easy-rsa.tar.gz && cp -rf easy-rsa /etc/ovpn
+RUN tar -zxf openvpn-2.3.12.tar.gz && cd openvpn-2.3.12 && ./configure --prefix=/etc/ovpn && make && make install
+RUN tar -zxf easyrsa.tar.gz && cp -rf easyrsa /etc/ovpn
 #rename
-WORKDIR /etc/ovpn/easy-rsa
-RUN rm -rf Windows && mv 2.0/* . -f && rm -rf 2.0
+WORKDIR /etc/ovpn/easyrsa
 #copy server.conf to /etc/ovpn
 COPY conf/server.conf /etc/ovpn/
 COPY conf/*.sh /etc/ovpn/
-COPY conf/easy-rsa/*.sh /etc/ovpn/easy-rsa/
+COPY conf/easyrsa/*.sh /etc/ovpn/easyrsa/
 COPY conf/psw-file /etc/ovpn/
-RUN cd /etc/ovpn/easy-rsa && bash auto-init.sh
+RUN cd /etc/ovpn/easyrsa && bash auto-init.sh
 WORKDIR /etc/ovpn/
 #set create ta.key
-RUN /etc/ovpn/sbin/openvpn --genkey --secret /etc/ovpn/easy-rsa/keys/ta.key
+RUN /etc/ovpn/sbin/openvpn --genkey --secret /etc/ovpn/easyrsa/pki/ta.key
 #create client ovpn
 RUN bash createovpn.sh
 #set openvpn path
@@ -35,5 +34,5 @@ RUN sed -i '11a\-A INPUT -p tcp --dport replace_port -j ACCEPT' /etc/sysconfig/i
 COPY run.sh /
 RUN chmod +x /run.sh
 RUN echo "bash /run.sh" >> /etc/rc.local
-RUN rm -rf /soft
+#RUN rm -rf /soft
 CMD ["/sbin/init"]

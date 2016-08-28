@@ -1,8 +1,9 @@
 #!/bin/bash
-echo -n "please input you vpnserver ip address[localhost]:"
+dip=`bash getip.sh`
+echo -n "please input you vpnserver ip address[$dip]:"
 read ip
 if [ -z "$ip" ];then
-	ip=`bash getip.sh`
+	ip=$dip
 fi
 echo -n "please input you vpnserver port [replace_port]:"
 read port
@@ -30,14 +31,20 @@ nobind
 auth-user-pass
 persist-key
 persist-tun
-ns-cert-type server
 comp-lzo
 verb 3
 <ca>
-$(cat easy-rsa/keys/ca.crt)
+$(cat easyrsa/pki/ca.crt)
 </ca>
+<cert>
+$(cat easyrsa/pki/issued/client.crt)
+</cert>
+<key>
+$(cat easyrsa/pki/private/client.key)
+</key>
 <tls-auth>
-$(cat easy-rsa/keys/ta.key)
-</tls-auth>"
-echo -e "$str" >> $filename
+$(cat easyrsa/pki/ta.key)
+</tls-auth>
+"
+echo -e "$str" > $filename
 echo "build Successfuled."
