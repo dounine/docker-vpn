@@ -1,4 +1,5 @@
 #!/bin/bash
+yum install git expect -y
 name=$1
 port=$2
 if [ "$name" = "" ];then
