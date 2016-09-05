@@ -1,4 +1,4 @@
-FROM daocloud.io/library/centos
+FROM centos:7
 RUN yum install iptables-services wget expect vim gcc openssl openssl-devel pam-devel net-tools wget -y
 RUN echo root:root | chpasswd
 RUN mkdir /soft
