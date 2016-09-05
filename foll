@@ -1,0 +1,4 @@
+#!/bin/bash
+yum install git -y
+git clone https://github.com/dounine/docker-vpn.git
+cd docker-vpn && ./bootstrap
